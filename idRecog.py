@@ -6,18 +6,20 @@ from keras.layers import  Dense
 from keras.preprocessing.image import ImageDataGenerator
 
 classifier = Sequential()
-classifier.add(Convolution2D(32,(3,3), input_shape=(64,64,3),activation="relu"))
-
+# First Layer
+classifier.add(Convolution2D(32,3,3, input_shape=(64,64,3),activation="relu"))
+#Feature mapping
 classifier.add(MaxPooling2D(pool_size=(2,2)))
-
-classifier.add(Convolution2D(32,(3,3),activation="relu"))
+#Second Layer Feature mapping
+classifier.add(Convolution2D(32,3,3,activation="relu"))
+#Feature mapping
 classifier.add(MaxPooling2D(pool_size=(2,2)))
-
+#Convert to single array
 classifier.add(Flatten())
 
-classifier.add(Dense(units =128, activation= 'relu'))
-classifier.add(Dense(units =1, activation= 'sigmoid'))
-classifier.compile(optimizer="adam", loss = 'binary_crossentropy', metrics= ["accuracy"])
+classifier.add(Dense(output_dim =128, activation= 'relu'))
+classifier.add(Dense(output_dim =3, activation= 'softmax')) #softmax default
+classifier.compile(optimizer="adam", loss = 'categorical_crossentropy', metrics= ["accuracy"])
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
@@ -28,23 +30,23 @@ train_datagen = ImageDataGenerator(
 test_datagen = ImageDataGenerator(rescale=1./255)
 
 traning_set = train_datagen.flow_from_directory(
-        './nic/train_set',
+        'nic/train_set',
         target_size=(64, 64),
         batch_size=32,
-        class_mode='binary')
+        class_mode='categorical')
 
 test_set = test_datagen.flow_from_directory(
-        './nic/test_set',
+        'nic/test_set',
         target_size=(64, 64),
         batch_size=32,
-        class_mode='binary')
+        class_mode='categorical')
 
 classifier.fit_generator(
         traning_set,
-        steps_per_epoch=204,
-        epochs=20,
+        steps_per_epoch=25,
+        epochs=5,
         validation_data=test_set,
-        validation_steps=101)
+        validation_steps=7)
 
 
-# classifier.save('id.h5')
+classifier.save('idt.h5')
