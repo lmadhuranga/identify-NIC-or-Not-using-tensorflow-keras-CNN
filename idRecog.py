@@ -5,8 +5,12 @@ from keras.layers import  Flatten
 from keras.layers import  Dense
 from keras.preprocessing.image import ImageDataGenerator
 
+# as first layer in a sequential model:
 classifier = Sequential()
-# First Layer
+   # now the model will take as input arrays of shape (*, 16)
+    # and output arrays of shape (*, 32)
+# after the first layer, you don't need to specify
+    # the size of the input anymore:
 classifier.add(Convolution2D(32,3,3, input_shape=(64,64,3),activation="relu"))
 #Feature mapping
 classifier.add(MaxPooling2D(pool_size=(2,2)))
