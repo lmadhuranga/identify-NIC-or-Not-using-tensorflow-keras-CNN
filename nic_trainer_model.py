@@ -13,7 +13,7 @@ classifier = Sequential()
 # after the first layer, you don't need to specify
 # the size of the input anymore:
 # Initialize the first layer
-classifier.add(Convolution2D(32, (3, 3), input_shape=(64,64,3), activation="relu"))
+classifier.add(Convolution2D(32, (3, 3), input_shape=(64, 64, 3), activation="relu"))
 
 # Feature mapping reduce the unnessary pixel and remain essential pixel only
 classifier.add(MaxPooling2D(pool_size=(2, 2)))
@@ -66,10 +66,10 @@ test_set = test_datagen.flow_from_directory(
     # @validation_data = set the validate data set   
 classifier.fit_generator(
     traning_set,
-    steps_per_epoch=25,
-    epochs=5,
+    steps_per_epoch=128,
+    epochs=20,
     validation_data=test_set,
-    validation_steps=7)
+    validation_steps=len(test_set))
 
 # Create the train model
 classifier.save('nicTrainedModel.h5')
