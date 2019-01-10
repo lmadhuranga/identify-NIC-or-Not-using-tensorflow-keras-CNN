@@ -7,8 +7,8 @@
 .pnp.js
 
 # testing
-/nic/test_set
-/nic/train_set
+# /nic/test_set
+# /nic/train_set
 
 # misc
 .DS_Store
