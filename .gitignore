@@ -3,4 +3,5 @@ __pycache__/
 models/
 .idea/
 .ngrok2/
+.idea/
 test*
