@@ -7,7 +7,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function (e) {
-      $("#form").on('submit',(function(e) {
+      $("#form").on('submit',(function(e) { 
+        // $('#preview img').attr("src",$('#uploadImage').)
         e.preventDefault();
         $.ajax({
           url: "http://localhost:5000/upload",
@@ -23,7 +24,13 @@
           },
           success: function(data)
           {
-            alert(data.nicType)
+            presentages = data.presentages
+            $('#licFront .answer').html(presentages.licFront)
+            $('#nicBack .answer').html(presentages.nicBack)
+            $('#nicFront .answer').html(presentages.nicFront)
+            $('#nicFrontNew .answer').html(presentages.nicFrontNew)
+            $('#other .answer').html(presentages.other)
+            
             console.log('data',data);
           },
           error: function(e) 
@@ -47,17 +54,21 @@
         <h1>Upload your nic to verify</h1>
         <hr>
                 
-        <form id="form" action="ajaxupload.php" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="name">NAME</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required />
-          </div>
+        <form id="form" action=#" method="post" enctype="multipart/form-data">
           <input id="uploadImage" type="file" accept="image/*" name="file" />
           <div id="preview"><img src="filed.png" /></div><br>
           <input class="btn btn-success" type="submit" value="Upload">
         </form>
         
-        <div id="err"></div>
+        <div id="result">
+          <ul>
+            <li id="licFront"><span >licFront: </span> <span class="answer"></span></li>
+            <li id="nicBack"><span >nicBack: </span> <span class="answer"></span></li>
+            <li id="nicFront"><span >nicFront: </span> <span class="answer"></span></li>
+            <li id="nicFrontNew"><span >nicFrontNew: </span> <span class="answer"></span></li>
+            <li id="other"><span >other: </span> <span class="answer"></span></li>
+          </ul>
+        </div>
         <hr>
       </div>
     </div>

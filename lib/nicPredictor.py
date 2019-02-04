@@ -5,6 +5,12 @@ import numpy as np
 from keras.models import  load_model
 from keras.preprocessing import image
 from utils import helpers, config
+import tensorflow as tf
+
+osconfig = tf.ConfigProto()
+osconfig.gpu_options.allow_growth = True
+session = tf.Session(config=osconfig)
+
 appConfig = config.app
 nicTypes = config.app['nicTypes']
 nicIndexes = config.app['nicIndexes']
@@ -78,7 +84,5 @@ def runPredict(imgName):
     
     return {
         "nicType": nicIndexes[pred_classes],
-        # "nicType": pred_classes
-        
-        # "presentages": calcMatch(preds)
+        "presentages": calcMatch(preds)
     }
