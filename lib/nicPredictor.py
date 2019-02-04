@@ -35,20 +35,26 @@ def preprocessing(imgName):
     return imageExpanded
 
 def calcMatch(preds):
-    final_score = preds[0][0] + preds[0][1] + preds[0][2]
+    final_score = preds[0][0] + preds[0][1] + preds[0][2] + preds[0][3] + preds[0][4]
 
-    license  = preds[0][0]
-    nicBack  = preds[0][1]
-    nicFront = preds[0][2]
+    license     = preds[0][0]
+    nicBack     = preds[0][1]
+    nicFront    = preds[0][2]
+    nicFrontNew = preds[0][3]
+    other       = preds[0][4]
 
-    presentageLic  = license/final_score * 100
-    presentageNicB = nicBack/final_score * 100
-    presentageNicF = nicFront/final_score * 100
+    presentageLic     = license/final_score * 100
+    presentageNicB    = nicBack/final_score * 100
+    presentageNicF    = nicFront/final_score * 100
+    presentageNicFNew = nicFrontNew/final_score * 100
+    presentageOther   = other/final_score * 100
     
     output = {
-        nicTypes['nicFront'] : presentageNicF,
-        nicTypes['nicBack']  : presentageNicB,
-        nicTypes['licFront'] : presentageLic
+        nicTypes['nicFront']    : presentageNicF,
+        nicTypes['nicBack']     : presentageNicB,
+        nicTypes['licFront']    : presentageLic,
+        nicTypes['nicFrontNew'] : presentageNicFNew,
+        nicTypes['other']       : presentageOther
     }
     print('output--->', output)
     
@@ -57,16 +63,22 @@ def calcMatch(preds):
 def runPredict(imgName):
     # image preprocessed    
     preprocedImg = preprocessing(imgName)
+    print('mad1')
     
     # # Get the result using train model
     preds = model.predict(preprocedImg)
+    print('mad2')
     print('preds--->', preds)
     
     # # 0.licFront. 1.nicBack 2.nicFront"
     pred_classes = np.argmax(preds)
+    print('mad3', pred_classes)
+
     print('pred_classes', pred_classes, nicIndexes[pred_classes])
     
     return {
         "nicType": nicIndexes[pred_classes],
+        # "nicType": pred_classes
+        
         # "presentages": calcMatch(preds)
     }
